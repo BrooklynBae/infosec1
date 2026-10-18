@@ -98,8 +98,11 @@
 				<configuration>
 					<failBuildOnCVSS>9.0</failBuildOnCVSS>
 					<format>HTML</format>
+					<nvdApiDelay>16000</nvdApiDelay>
+					<nvdMaxRetryCount>30</nvdMaxRetryCount>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 
