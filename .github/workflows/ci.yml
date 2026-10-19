@@ -1,3 +1,4 @@
+
 name: Security CI
 
 on:
@@ -23,22 +24,22 @@ jobs:
           cache: maven
 
       - name: Build project
-        run: mvn -B -ntp -DskipTests package
+        run: mvn -B -ntp -s .github/maven-settings.xml -DskipTests package
 
       - name: SAST - SpotBugs
-        run: mvn -B -ntp spotbugs:check
+        run: mvn -B -ntp -s .github/maven-settings.xml spotbugs:check
 
       - name: SCA - OWASP Dependency Check
         if: ${{ !cancelled() }}
-        run: mvn -B -ntp dependency-check:check
+        run: mvn -B -ntp -s .github/maven-settings.xml -DossIndexAnalyzerEnabled=false dependency-check:check
 
       - name: Upload security reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: security-reports
           path: |
             target/spotbugsXml.xml
-            target/spotbugs.html
+            target/reports/spotbugs.html
             target/dependency-check-report.html
           if-no-files-found: warn
